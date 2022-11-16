@@ -202,3 +202,24 @@ class EmojiForms(object):
         count_emoji_df = count_emoji_df.T
 
         return count_emoji_df
+    
+    def Count_Emojis(self,DataFrame):
+        DataFrame = DataFrame.replace(np.nan,"0")
+        freq_dict = {}
+        def count_emojis(text):
+            #print(text)
+            text = str(text)
+            emoji_ls = [*text]
+            #print(emoji_ls)
+            for i in emoji_ls:
+                if i not in freq_dict:
+                    freq_dict[i] = 0
+                freq_dict[i] = freq_dict[i] + 1
+            return text
+        for i in DataFrame.columns:
+            #print(i)
+            DataFrame[i].apply(count_emojis)
+        count_emoji_df =  pd.DataFrame(freq_dict, index=[0])
+        count_emoji_df = count_emoji_df.T
+
+        return count_emoji_df
